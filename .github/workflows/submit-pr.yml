@@ -1,0 +1,60 @@
+name: Submit a pull request for release
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Process
+        run: |
+          echo "result=content" >> "$GITHUB_ENV"
+          echo "${result}"
+
+  comment:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v4
+        id: comment
+        with:
+          issue-number: 1
+          body: |
+            result: "${result}"
+      - name: Check outputs
+        run: |
+          commit_id=${{ steps.comment.outputs.comment-id }}
+          echo "Comment ID - ${commit_id}"
+          echo "commit_id=${commit_id}" >> "$GITHUB_ENV"
+
+  submit:
+    runs-on: ubuntu-latest
+    needs: comment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: echo "${result}" > ${comment_id}.txt
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        id: cpr
+        with:
+          title: Pull request by create-pull-request action
+          body: |
+            check out: #${commit_id}
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
