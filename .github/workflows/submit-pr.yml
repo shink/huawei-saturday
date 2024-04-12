@@ -27,9 +27,10 @@ jobs:
       - name: Process
         run: |
           echo "CALENDER_CONTENT=calender_content" >> $GITHUB_ENV
-          tee $GITHUB_ENV
+
+      - name: Check outputs
+        run: |
           echo "${{ env.CALENDER_CONTENT }}"
-          tee ${{ github.event.issue }}
 
   comment:
     runs-on: ubuntu-latest
