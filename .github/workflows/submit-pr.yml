@@ -6,11 +6,6 @@ on:
       - opened
       - edited
       - reopened
-  push:
-    branches:
-      - dev
-
-  workflow_dispatch:
 
 jobs:
   build:
@@ -39,21 +34,29 @@ jobs:
         uses: actions/checkout@v4
       - name: Save to file
         run: echo "${{ env.CALENDER_CONTENT }}" > calender.ios
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v4
-        id: comment
+      - name: Find comment
+        uses: peter-evans/find-comment@v3
+        id: fc
         with:
-          issue-number: 1
+          issue-number: ${{ github.event.issue.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Calender content
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: replace
           body: |
-            Calender result:
+            Calender content:
             ${{ env.CALENDER_CONTENT }}
-      - name: Create Pull Request
+      - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         id: cpr
         with:
-          title: Pull request by create-pull-request action
+          title: Update calender content
           body: |
-            check out: #${{ github.event.number }}
+            fix: #${{ github.event.issue.number }}
       - name: Check outputs
         run: |
           echo "Comment ID - ${{ steps.comment.outputs.comment-id }}"
