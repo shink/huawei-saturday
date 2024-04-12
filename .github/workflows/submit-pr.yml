@@ -16,15 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set the value
-        id: step_one
-        run: |
-          echo "action_state=yellow" >> $GITHUB_ENV
-      - name: Use the value
-        id: step_two
-        run: |
-          echo "${{ env.action_state }}" # This will output 'yellow'
-  
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -36,9 +27,7 @@ jobs:
       - name: Process
         run: |
           echo "CALENDER_CONTENT=calender_content" >> $GITHUB_ENV
-          echo "${CALENDER_CONTENT}"
           echo "${{ env.CALENDER_CONTENT }}"
-          echo "${{ github.event.issue.id }}"
 
   comment:
     runs-on: ubuntu-latest
