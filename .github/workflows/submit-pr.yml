@@ -25,9 +25,6 @@ jobs:
       - name: Process
         run: |
           echo "CALENDER_CONTENT=calender_content" >> $GITHUB_ENV
-      - name: Check outputs
-        run: |
-          echo "${{ env.CALENDER_CONTENT }}"
     outputs:
       CALENDER_CONTENT: ${{ env.CALENDER_CONTENT }}
 
@@ -38,9 +35,8 @@ jobs:
     env:
       CALENDER_CONTENT: ${{ needs.build.outputs.CALENDER_CONTENT }}
     steps:
-      - run: |
-          echo "${{ needs.build.outputs.CALENDER_CONTENT }}"
-          echo "${{ env.CALENDER_CONTENT }}"
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Save to file
         run: echo "${{ env.CALENDER_CONTENT }}" > calender.ios
       - name: Create comment
@@ -49,14 +45,15 @@ jobs:
         with:
           issue-number: 1
           body: |
-            Calender result: ${{ env.CALENDER_CONTENT }}
+            Calender result:
+            ${{ env.CALENDER_CONTENT }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         id: cpr
         with:
           title: Pull request by create-pull-request action
           body: |
-            check out: #${{ github.event.issue.number }}
+            check out: #${{ github.event.number }}
       - name: Check outputs
         run: |
           echo "Comment ID - ${{ steps.comment.outputs.comment-id }}"
