@@ -40,7 +40,7 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Calender content
+          body-includes: Content generated successfully!
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -48,7 +48,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           edit-mode: replace
           body: |
-            Content generated successfully! :tada:
+            **Content generated successfully!** :tada:
             <details>
             <summary>Calender content</summary>
             ${{ env.CALENDER_CONTENT }}
