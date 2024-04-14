@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.author == github.actor }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
