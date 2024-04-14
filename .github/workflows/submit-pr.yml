@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.author == github.actor }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,9 +18,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
       - name: Process
         run: |
-          echo "CALENDER_CONTENT=calender_content" >> $GITHUB_ENV
+          {
+            echo 'CALENDER_CONTENT<<EOF'
+            python calender.py ${{ github.event.issue.body }}
+            echo EOF
+          } >> "$GITHUB_ENV"
     outputs:
       CALENDER_CONTENT: ${{ env.CALENDER_CONTENT }}
 
@@ -33,7 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Save to file
-        run: echo "${{ env.CALENDER_CONTENT }}" > calender.ios
+        run: |
+          echo "${{ env.CALENDER_CONTENT }}" > calender.ics
       - name: Find comment
         uses: peter-evans/find-comment@v3
         id: fc
