@@ -4,14 +4,11 @@
 from datetime import datetime
 
 import os
+import sys
 import pytz
 import yaml
-import sys
 
 sys.path.append(".")
-
-import hwsat
-
 TIMEZONE = pytz.timezone('Asia/Shanghai')
 YEAR = datetime.now(TIMEZONE).year
 
@@ -26,6 +23,8 @@ def read_conf(conf_path: str) -> tuple:
 
 
 if __name__ == '__main__':
+    import hwsat
+
     # 读取配置
     (year, month_list, day_list) = read_conf('config/sat.yml')
 
@@ -36,4 +35,7 @@ if __name__ == '__main__':
     gh_env_file = os.getenv('GITHUB_ENV')
     with open(gh_env_file, "a") as f:
         f.write(f"CALENDER_YEAR={year}")
-        f.write(f"CALENDER_CONTENT={calender_content}")
+
+    # 保存文件
+    with open('calender.ics', "w", encoding='utf-8') as f:
+        f.write(calender_content)

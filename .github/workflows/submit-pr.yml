@@ -34,9 +34,6 @@ jobs:
       - name: Process
         run: |
           python bin/ci.py
-      - name: Save to file
-        run: |
-          echo "${{ env.CALENDER_CONTENT }}" > calender.ics
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         id: cpr
