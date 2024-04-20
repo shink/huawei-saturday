@@ -41,8 +41,9 @@ jobs:
             triggered
           assignees: ${{ github.repository_owner }}
           reviewers: ${{ github.repository_owner }}
-          commit-message: 'feat: generate calendar subscription for ${{ env.CALENDER_YEAR }}'
-          title: '[Bot] generate calendar subscription for ${{ env.CALENDER_YEAR }}'
+          branch: 'calender/${{ env.CALENDER_YEAR }}'
+          commit-message: 'feat: generate clender subscription for ${{ env.CALENDER_YEAR }}'
+          title: '[Bot] Generate clender subscription for ${{ env.CALENDER_YEAR }}'
           body: |
             input:
             ```yaml
