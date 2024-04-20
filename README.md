@@ -32,7 +32,7 @@ days:
 
 订阅地址：
 
-- https://raw.githubusercontent.com/shink/huawei-saturday/master/calender.ics
+- https://raw.githubusercontent.com/shink/huawei-saturday/master/calendar.ics
 
 > [!CAUTION]
 >
