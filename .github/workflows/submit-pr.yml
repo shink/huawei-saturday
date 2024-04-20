@@ -3,7 +3,7 @@ name: Submit a pull request for release
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - '.github/workflows/submit-pr.yml'
       - 'config/sat.yml'
