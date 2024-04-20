@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - dev
     paths:
       - '.github/workflows/submit-pr.yml'
       - 'config/sat.yml'
@@ -37,7 +36,6 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         id: cpr
-        if: ${{ github.event_name == 'push' && contains(github.ref_name, github.repository.default_branch) }}
         with:
           labels: |
             triggered
