@@ -1,15 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import sys
 import calendar
-import pytz
 import uuid
-import yaml
-from datetime import datetime, date
-
-TIMEZONE = pytz.timezone('Asia/Shanghai')
-YEAR = datetime.now(TIMEZONE).year
+from datetime import date
 
 
 class VEVENT:
@@ -19,7 +13,7 @@ class VEVENT:
         self.total = total
 
     def __str__(self):
-        date_str = self.saturday_date.strftime('%Y%m%d')
+        date_str = self.saturday_date.strftime("%Y%m%d")
         uid = uuid.uuid4()
 
         return """BEGIN:VEVENT
@@ -65,15 +59,16 @@ END:STANDARD
 END:VTIMEZONE
 %s
 END:VCALENDAR""" % (self.year, self.year,
-                    '\n'.join([str(vevent) for vevent in self.vevent_list]))
-
-
-def parse_arguments(arg: str) -> (list[int or str], list[int or str]):
-    res_dct = yaml.safe_load(arg)
-    return (res_dct.get('months', []), res_dct.get('days', []))
+                    "\n".join([str(vevent) for vevent in self.vevent_list]))
 
 
 def get_last_saturday(year: int, month: int) -> date:
+    """
+    获取某年某月的最后一个周六日期
+    :param year: 年份
+    :param month: 月份
+    :return: 月末周六日期
+    """
     (_, last_day) = calendar.monthrange(year, month)
     for day in range(last_day, 0, -1):
         weekday = calendar.weekday(year, month, day)
@@ -81,48 +76,37 @@ def get_last_saturday(year: int, month: int) -> date:
             return date(year, month, day)
 
 
-def get_calender_content(saturday_dct: dict) -> VCALENDAR:
+def get_calender_content(year: int, saturday_dct: dict) -> VCALENDAR:
+    """
+    生成日历内容
+    :param year: 年份
+    :param saturday_dct: 周六日期信息，key: 月份，value: 月末周六日期
+    :return: 日历内容
+    """
     total = len(saturday_dct)
     vevent_list = [VEVENT(saturday_date, i + 1, total) for i, saturday_date in enumerate(saturday_dct.values())]
-    return VCALENDAR(YEAR, vevent_list)
+    return VCALENDAR(year, vevent_list)
 
 
-if __name__ == '__main__':
+def get_saturday_calendar(year: int, month_list: list, day_list: list) -> str:
     """
-    输入参数内容示例：
-    months:
-        - 1
-        - 3
-        - 5
-        - 6
-        - 7
-        - 8
-        - 10
-        - 12
-    days:
-        - 01-01
-        - 11-01
-        - 12-31
+    生成日历内容
+    :param year: 年份
+    :param month_list: 月末周六月份
+    :param day_list: 指定月末周六日期
+    :return: ics 内容格式
     """
-    if (len(sys.argv) <= 1):
-        print('Invalid arguments')
-        exit(1)
-
-    # 解析参数
-    (month_list, day_list) = parse_arguments(sys.argv[1])
-
     # 指定月份的月末周六
     saturday_dct = {}
     for month in range(1, 13):
         if month in set(month_list):
-            saturday_dct[int(month)] = get_last_saturday(YEAR, month)
+            saturday_dct[int(month)] = get_last_saturday(year, month)
 
     # 指定月末周六日期
     for day in day_list:
-        specific_date = date.fromisoformat("%d-%s" % (YEAR, day))
+        specific_date = date.fromisoformat("%d-%s" % (year, day))
         saturday_dct[specific_date.month] = specific_date
 
     # 转换为 ics 内容格式
-    content = get_calender_content(saturday_dct)
-
-    print(content)
+    content = get_calender_content(year, saturday_dct)
+    return str(content)
