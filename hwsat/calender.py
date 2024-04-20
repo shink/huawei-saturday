@@ -13,7 +13,7 @@ class VEVENT:
         self.total = total
 
     def __str__(self):
-        date_str = self.saturday_date.strftime('%Y%m%d')
+        date_str = self.saturday_date.strftime("%Y%m%d")
         uid = uuid.uuid4()
 
         return """BEGIN:VEVENT
@@ -59,7 +59,7 @@ END:STANDARD
 END:VTIMEZONE
 %s
 END:VCALENDAR""" % (self.year, self.year,
-                    '\n'.join([str(vevent) for vevent in self.vevent_list]))
+                    "\n".join([str(vevent) for vevent in self.vevent_list]))
 
 
 def get_last_saturday(year: int, month: int) -> date:
