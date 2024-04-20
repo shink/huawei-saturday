@@ -6,6 +6,9 @@ from datetime import datetime
 import os
 import pytz
 import yaml
+import sys
+
+sys.path.append(".")
 
 import hwsat
 
