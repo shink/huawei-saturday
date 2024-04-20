@@ -76,7 +76,7 @@ def get_last_saturday(year: int, month: int) -> date:
             return date(year, month, day)
 
 
-def get_calender_content(year: int, saturday_dct: dict) -> VCALENDAR:
+def get_calendar_content(year: int, saturday_dct: dict) -> VCALENDAR:
     """
     生成日历内容
     :param year: 年份
@@ -108,5 +108,5 @@ def get_saturday_calendar(year: int, month_list: list, day_list: list) -> str:
         saturday_dct[specific_date.month] = specific_date
 
     # 转换为 ics 内容格式
-    content = get_calender_content(year, saturday_dct)
+    content = get_calendar_content(year, saturday_dct)
     return str(content)

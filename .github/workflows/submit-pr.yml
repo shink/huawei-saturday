@@ -8,7 +8,7 @@ on:
       - '.github/workflows/submit-pr.yml'
       - 'config/sat.yml'
       - 'bin/ci.py'
-      - 'hwsat/calender.py'
+      - 'hwsat/calendar.py'
 
 jobs:
   submit:
@@ -26,7 +26,7 @@ jobs:
       - name: Check inputs
         run: |
           {
-            echo 'CALENDER_CONFIG<<EOF'
+            echo 'CALENDAR_CONFIG<<EOF'
             cat config/sat.yml
             echo EOF
           } >> "$GITHUB_ENV"
@@ -41,13 +41,13 @@ jobs:
             triggered
           assignees: ${{ github.repository_owner }}
           reviewers: ${{ github.repository_owner }}
-          branch: 'calender/${{ env.CALENDER_YEAR }}'
-          commit-message: 'feat: generate clender subscription for ${{ env.CALENDER_YEAR }}'
-          title: '[Bot] Generate clender subscription for ${{ env.CALENDER_YEAR }}'
+          branch: 'calendar/${{ env.CALENDAR_YEAR }}'
+          commit-message: 'feat: generate calendar subscription for ${{ env.CALENDAR_YEAR }}'
+          title: '[Bot] Generate calendar subscription for ${{ env.CALENDAR_YEAR }}'
           body: |
             input:
             ```yaml
-            ${{ env.CALENDER_CONFIG }}
+            ${{ env.CALENDAR_CONFIG }}
             ```
       - name: Check outputs
         run: |

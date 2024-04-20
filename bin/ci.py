@@ -29,13 +29,13 @@ if __name__ == "__main__":
     (year, month_list, day_list) = read_conf("config/sat.yml")
 
     # 生成日历内容
-    calender_content = hwsat.get_saturday_calendar(year, month_list, day_list)
+    calendar_content = hwsat.get_saturday_calendar(year, month_list, day_list)
 
     # 保存 GitHub Actions 环境变量
     gh_env_file = os.getenv("GITHUB_ENV")
     with open(gh_env_file, "a") as f:
-        f.write(f"CALENDER_YEAR={year}")
+        f.write(f"CALENDAR_YEAR={year}")
 
     # 保存文件
-    with open("calender.ics", "w", encoding="utf-8") as f:
-        f.write(calender_content)
+    with open("calendar.ics", "w", encoding="utf-8") as f:
+        f.write(calendar_content)
