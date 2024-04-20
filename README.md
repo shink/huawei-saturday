@@ -9,7 +9,7 @@
 
 ## Usage
 
-根据 [config/sat.yml](config/sat.yml) 配置文件，由 GitHub Actions 自动生成日历内容并提交 pull request（如：[pull#16](https://github.com/shink/huawei-saturday/pull/16)）：
+根据 [config/sat.yml](config/sat.yml) 配置文件，由 GitHub Actions 自动生成日历内容并提交 pull request（如：[pull#18](https://github.com/shink/huawei-saturday/pull/18)）：
 
 配置文件格式如下：
 
