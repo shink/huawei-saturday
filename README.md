@@ -9,9 +9,12 @@
 
 ## Usage
 
-提交 issue，内容格式如下，由 GitHub Actions 自动生成日历内容并提交 pull request（如：[issue#12](https://github.com/shink/huawei-saturday/issues/12)）：
+根据 [config/sat.yml](config/sat.yml) 配置文件，由 GitHub Actions 自动生成日历内容并提交 pull request（如：[pull#16](https://github.com/shink/huawei-saturday/pull/16)）：
+
+配置文件格式如下：
 
 ```yaml
+year: 2024
 months:
     - 1
     - 3
@@ -29,7 +32,6 @@ days:
 
 订阅地址：
 
-- https://jiyuanhao.com/hw-saturday-calender.ics
 - https://raw.githubusercontent.com/shink/huawei-saturday/master/calender.ics
 
 > [!CAUTION]
